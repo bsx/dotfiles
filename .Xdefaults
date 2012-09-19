@@ -1,0 +1,26 @@
+URxvt*background: rgba:0000/0000/0000/cccc
+URxvt*foreground: White
+URxvt*loginShell: True
+URxvt*scrollBar: False
+URxvt*secondaryWheel: True
+URxvt*termName: rxvt-unicode-256color
+URxvt*font: xft:ProFontWindows:size=12:antialias=true:hinting=true
+URxvt*boldFont: xft:ProFontWindows:bold:size=12:antialias=true:hinting=true
+URxvt*keysym.M-C-1: command:\033]710;xft:ProFontWindows:size=12:antialias=true:hinting=true\007\033]711;xft:ProFontWindows:bold:size=12:antialias=true:hinting=true\007
+URxvt*keysym.M-C-2: command:\033]710;xft:ProFontWindows:size=16:antialias=true:hinting=true\007\033]711;xft:ProFontWindows:bold:size=16:antialias=true:hinting=true\007
+URxvt*keysym.M-C-3: command:\033]710;xft:ProFontWindows:size=24:antialias=true:hinting=true\007\033]711;xft:ProFontWindows:bold:size=24:antialias=true:hinting=true\007
+URxvt*keysym.M-C-4: command:\033]710;xft:ProFontWindows:size=32:antialias=true:hinting=true\007\033]711;xft:ProFontWindows:bold:size=32:antialias=true:hinting=true\007
+URxvt.keysym.M-u: perl:mark-yank-urls:activate_mark_mode
+URxvt.underlineURLs: true
+URxvt.perl-lib: /home/bsx/.urxvt/
+URxvt.perl-ext: selection,mark-yank-urls
+URxvt.urlLauncher: xdg-open
+URxvt.urgentOnBell: true
+URxvt.transparent: true
+URxvt.shading: 20
+URxvt.visualBell: true
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+

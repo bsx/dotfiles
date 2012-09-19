@@ -1,0 +1,2 @@
+compdef '_files -g "*.gz *.tgz *.bz2 *.tbz *.zip *.rar *.tar *.jar *.war"' extract_archive
+compdef '_files -g "*.gz *.tgz *.bz2 *.tbz *.zip *.rar *.tar *.jar *.war"' list_archive

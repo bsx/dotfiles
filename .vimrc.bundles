@@ -1,0 +1,49 @@
+" Modeline and Notes {
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
+"
+" all bundles and their config goes here
+" }
+
+" Bundles without config {
+    Bundle 'mileszs/ack.vim'
+    " surround text with quotes/tags/etc.
+    Bundle 'tpope/vim-surround'
+    " jump to target characters easily
+    Bundle 'Lokaltog/vim-easymotion'
+    " structured undo history
+    Bundle 'mbbill/undotree'
+    " run external syntax checkers on save
+    Bundle 'scrooloose/syntastic'
+    " insert/toggle comments
+    Bundle 'scrooloose/nerdcommenter'
+    Bundle 'majutsushi/tagbar'
+    " python stuff {
+        Bundle 'klen/python-mode'
+        Bundle 'python.vim'
+        Bundle 'python_match.vim'
+        Bundle 'pythoncomplete'
+    " }
+" }
+
+" colorscheme {
+    "Bundle 'altercation/vim-colors-solarized'
+    "let g:solarized_termcolors=256 " use standard terminal colors
+    "colorscheme solarized
+    "set background=dark
+    "Bundle 'fisadev/fisa-vim-colorscheme'
+    "colorscheme fisa
+    Bundle 'wombat256.vim'
+    colorscheme wombat256mod
+" }
+
+" powerline (fancy status line stuff) {
+    Bundle 'Lokaltog/vim-powerline'
+    "let g:Powerline_symbols = 'fancy'
+" }
+
+" fugitive {
+    Bundle 'tpope/vim-fugitive'
+    autocmd BufReadPost fugitive://* set bufhidden=delete   " autoclose fugitive buffers
+    " map .. to go to parent tree when browsing git objects
+    autocmd User fugitive if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' | nnoremap <buffer> .. :edit %:h<CR> | endif
+" }

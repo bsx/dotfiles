@@ -1,0 +1,7 @@
+application/pdf; evince %s
+image/pdf; evince %s
+application/x-pdf; evince %s
+application/msword; oowriter %s
+image/*; eog %s
+application/vnd.oasis.opendocument.spreadsheet; oocalc %s
+application/vnd.oasis.opendocument.text; oowriter %s

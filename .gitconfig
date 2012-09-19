@@ -1,0 +1,42 @@
+[user]
+	name = Bernd Stolle
+	email = 
+
+[core]
+    editor = vim
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = auto
+    pager = true
+
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    lv = log --name-status
+    ap = add --patch
+
+[url "git@github.com:"]
+    insteadOf = github:
+    pushInsteadOf = github:
+
+[github]
+    user = bsx
+
+[merge]
+    tool = threesome
+
+[mergetool "threesome"]
+    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
+    trustExitCode = true
+[giggle]
+	main-window-maximized = false
+	main-window-geometry = 1920x1010+0+45
+	history-view-vpane-position = 358
+	main-window-view = HistoryView
+[format]
+	pretty = oneline

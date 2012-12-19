@@ -11,9 +11,9 @@ import Control.OldException(catchDyn,try)
 import Control.Concurrent
 import System.Cmd
 
-import DBus
-import DBus.Connection
-import DBus.Message
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
 
 import XMonad.Config.Gnome
 import XMonad.Config.Desktop
@@ -45,11 +45,11 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.GridSelect
 
 import XMonad.Util.Run
-import XMonad.Util.Scratchpad
 
-import VirtualBox
+-- import VirtualBox
 
-main = withConnection Session $ \ dbus -> do
+main = do
+  dbus <- D.connectSession
   getWellKnownName dbus
   xmonad $ withUrgencyHook NoUrgencyHook $ gnomeConfig {
        borderWidth          = 1
@@ -59,7 +59,7 @@ main = withConnection Session $ \ dbus -> do
        , normalBorderColor  = "#dddddd"
        , focusedBorderColor = "#0033ff"
        , logHook            = dynamicLogWithPP $ myPrettyPrinter dbus
-       , manageHook         = manageHook gnomeConfig <+> myManageHook <+> manageDocks <+> scratchpadManageHook (W.RationalRect 0.0 0.0 1.0 0.5)
+       , manageHook         = manageHook gnomeConfig <+> myManageHook <+> manageDocks
        , keys               = \c -> mykeys c `M.union` keys gnomeConfig c
        , startupHook        = startupHook gnomeConfig >> liftIO startNitrogen
        , layoutHook         = desktopLayoutModifiers $ noBorders $ onWorkspace "4:chat" chatL $ onWorkspace "7:gimp" gimpL $ defaultL
@@ -94,7 +94,7 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm .|. controlMask, xK_l), layoutPrompt xpc)
   , ((modm .|. controlMask, xK_m), manPrompt xpc)
   , ((modm .|. controlMask, xK_p), shellPrompt xpc)
-  , ((modm .|. controlMask, xK_v), vboxPrompt xpc)
+  --, ((modm .|. controlMask, xK_v), vboxPrompt xpc)
 
   -- window navigation keybindings.
   , ((modm,               xK_Right), sendMessage $ Go R)
@@ -106,7 +106,7 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm .|. shiftMask, xK_Up   ), sendMessage $ Swap U)
   , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
 
-  , ((0,                  xK_F12  ), scratchpadSpawnActionTerminal "urxvt")
+  --, ((0,                  xK_F12  ), scratchpadSpawnActionTerminal "urxvt")
   , ((0,              0x1008ffb0  ), spawn "/home/bsx/bin/toggle-touchpad")
   ]
 
@@ -116,7 +116,7 @@ xpc = defaultXPConfig { font = "xft:ProFontWindows:size=12:antialias=true:hintin
 myTabConfig :: Theme
 myTabConfig = defaultTheme { fontName = "xft:ProFontWindows:size=12:antialias=true:hinting=true" }
 
-myPrettyPrinter :: Connection -> PP
+myPrettyPrinter :: D.Client -> PP
 myPrettyPrinter dbus = defaultPP {
     ppOutput  = outputThroughDBus dbus
   , ppTitle   = pangoColor "#003366" . shorten 50 . pangoSanitize
@@ -138,27 +138,23 @@ myManageHook = composeAll
     , className =? "Gimp" --> doF(W.shift "7:gimp")
     , className =? "Wfica" --> doF(W.shift "8:rdesktop")
     , className =? "MPlayer" --> doFloat
+    , className =? "hl2_linux" --> doFullFloat
     ]
 
 -- This retry is really awkward, but sometimes DBus won't let us get our
 -- name unless we retry a couple times.
-getWellKnownName :: Connection -> IO ()
-getWellKnownName dbus = tryGetName `catchDyn` (\ (DBus.Error _ _) ->
-                                                getWellKnownName dbus)
- where
-  tryGetName = do
-    namereq <- newMethodCall serviceDBus pathDBus interfaceDBus "RequestName"
-    addArgs namereq [String "org.xmonad.Log", Word32 5]
-    sendWithReplyAndBlock dbus namereq 0
-    return ()
-
-outputThroughDBus :: Connection -> String -> IO ()
-outputThroughDBus dbus str = do
-  let str' = "<span font=\"Terminus 7 Bold\">" ++ str ++ "</span>"
-  msg <- newSignal "/org/xmonad/Log" "org.xmonad.Log" "Update"
-  addArgs msg [String str']
-  send dbus msg 0 `catchDyn` (\ (DBus.Error _ _ ) -> return 0)
+getWellKnownName :: D.Client -> IO ()
+getWellKnownName dbus = do
+  D.requestName dbus (D.busName_ "org.xmonad.Log")
+                [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
   return ()
+
+outputThroughDBus :: D.Client -> String -> IO ()
+outputThroughDBus dbus str = do
+  let signal = (D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")) {
+          D.signalBody = [D.toVariant ("<span font=\"Terminus 7 Bold\">" ++ (UTF8.decodeString str) ++ "</span>")]
+      }
+  D.emit dbus signal
 
 pangoColor :: String -> String -> String
 pangoColor fg = wrap left right

@@ -32,6 +32,7 @@
     "set background=dark
     "Bundle 'fisadev/fisa-vim-colorscheme'
     "colorscheme fisa
+    set t_Co=256
     Bundle 'wombat256.vim'
     colorscheme wombat256mod
 " }

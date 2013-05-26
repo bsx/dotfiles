@@ -118,7 +118,7 @@ export PROJECT_HOME=$HOME/projects
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PIP_RESPECT_VIRTUALENV=true
 export VIRTUALENV_USE_DISTRIBUTE=true
-source /usr/bin/virtualenvwrapper.sh
+[[ -e /usr/bin/virtualenvwrapper.sh ]] && source /usr/bin/virtualenvwrapper.sh
 # if we are in a vritualenv cd automatically goes to the root of the working directory
 cd () {
     if (( $# == 0 ))
@@ -163,9 +163,9 @@ precmd() {
 # this function is called whenever the working directory is changed
 chpwd() {
     # see if there are any TODOs for that directory/project
-    if [ -e .venv ]; then
-        workon `cat .venv`
-    fi
+    #if [ -e .venv ]; then
+    #    workon `cat .venv`
+    #fi
 }
 
 # named directories

@@ -137,6 +137,7 @@ myManageHook = composeAll
     , className =? "Eclipse" --> doF(W.shift "2:code")
     , className =? "Gimp" --> doF(W.shift "7:gimp")
     , className =? "Wfica" --> doF(W.shift "8:rdesktop")
+    , className =? "xfreerdp" --> doF(W.shift "8:rdesktop")
     , className =? "MPlayer" --> doFloat
     , className =? "hl2_linux" --> doFullFloat
     ]

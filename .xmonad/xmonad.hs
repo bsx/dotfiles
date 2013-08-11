@@ -7,7 +7,6 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import Data.Ratio ((%))
 
-import Control.OldException(catchDyn,try)
 import Control.Concurrent
 import System.Cmd
 
@@ -61,7 +60,7 @@ main = do
        , logHook            = dynamicLogWithPP $ myPrettyPrinter dbus
        , manageHook         = manageHook gnomeConfig <+> myManageHook <+> manageDocks
        , keys               = \c -> mykeys c `M.union` keys gnomeConfig c
-       , startupHook        = startupHook gnomeConfig >> liftIO startNitrogen
+       , startupHook        = startupHook gnomeConfig
        , layoutHook         = desktopLayoutModifiers $ noBorders $ onWorkspace "4:chat" chatL $ onWorkspace "7:gimp" gimpL $ defaultL
        }
   where
@@ -172,10 +171,3 @@ pangoSanitize = foldr sanitize ""
   sanitize '&'  acc = "&amp;" ++ acc
   sanitize x    acc = x:acc
 
-startNitrogen :: IO ()
-startNitrogen = do
-  threadDelay (5 * 1000 * 1000)
-  try_ $ rawSystem "nitrogen" ["--restore"]
-
-try_ :: MonadIO m => IO a -> m ()
-try_ action = liftIO $ try action >> return ()

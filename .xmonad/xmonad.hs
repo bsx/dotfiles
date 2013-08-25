@@ -85,7 +85,7 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm,               xK_g), goToSelected defaultGSConfig)
 
   -- some programs to start with keybindings.
-  , ((modm .|. shiftMask, xK_b), spawn "chromium")
+  , ((modm .|. shiftMask, xK_b), spawn "firefox")
   , ((modm .|. shiftMask, xK_g), spawn "gajim")
 
   -- prompts
@@ -131,6 +131,7 @@ myManageHook = composeAll
     , className =? "Gajim" --> doF(W.shift "4:chat")
     , className =? "Chrome" --> doF(W.shift "3:web")
     , className =? "Chromium-browser" --> doF(W.shift "3:web")
+    , className =? "Firefox" --> doF(W.shift "3:web")
     , className =? "Quodlibet" --> doF(W.shift "5:music")
     , className =? "OpenOffice.org 3.4" --> doF(W.shift "6:office")
     , className =? "Eclipse" --> doF(W.shift "2:code")

@@ -49,30 +49,15 @@ zstyle ':completion:*:jstat:*'   command 'jps'
 #  remove slashes at the end of completed directories
 zstyle ':completion:*' squeeze-slashes true
 
+autoload -U zsh/terminfo
 # force emacs line editing mode
 bindkey -e
-# check if we need to create a keymap for this terminal
-if [[ ! -f ~/.zkbd/$TERM-$VENDOR-$OSTYPE ]]; then
-    print "No keymapping found for $TERM-$VENDOR-$OSTYPE, would you like to create one? [Yn] "
-    read answer
-    case ${(L)answer:-y} in
-        y) autoload -U zkbd; zkbd
-            ;;
-        *) # don't do anything
-            ;;
-    esac
-fi
-# load the keymapping for the terminal if it exists and bind some keys
-if [[ -f ~/.zkbd/$TERM-$VENDOR-$OSTYPE ]]; then
-    source ~/.zkbd/$TERM-$VENDOR-$OSTYPE
-    # a few convenient key bindings
-    bindkey "${key[Delete]}"   delete-char                       # DEL
-    bindkey "${key[Home]}"     beginning-of-line                 # Home
-    bindkey "${key[End]}"      end-of-line                       # End
-    # search the history for matching commands:
-    bindkey "${key[PageUp]}"   history-beginning-search-backward # PgUp
-    bindkey "${key[PageDown]}" history-beginning-search-forward  # PgDown
-fi
+bindkey $terminfo[khome] beginning-of-line
+bindkey $terminfo[kend]  end-of-line
+bindkey $terminfo[kdch1] delete-char
+bindkey $terminfo[kpp] history-beginning-search-backward
+bindkey $terminfo[knp] history-beginning-search-forward
+
 # kewl options
 setopt autocd     # allow '..' instead of 'cd ..' without aliases
 setopt correct    # turn on spelling correction through the completion mechanism

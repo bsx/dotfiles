@@ -21,6 +21,7 @@
     ci = commit
     co = checkout
     lv = log --name-status
+    ll = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
     ap = add --patch
 
 [url "git@github.com:"]
@@ -37,9 +38,8 @@
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'ThreesomeInit'"
     trustExitCode = true
 [giggle]
-	main-window-maximized = false
-	main-window-geometry = 1920x1010+0+45
+	main-window-maximized = true
+	main-window-geometry = 0x0+0+0
 	history-view-vpane-position = 358
 	main-window-view = HistoryView
-[format]
-	pretty = oneline
+	file-view-vpane-position = 570

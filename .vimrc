@@ -256,7 +256,7 @@ call InitializeDirectories()
 
     augroup Programming
         autocmd!
-        autocmd BufWritePost *.pp !puppet --parseonly <afile>
+        autocmd BufWritePost *.pp !puppet parser validate <afile>
     augroup END
 
     function! SetCOptions()

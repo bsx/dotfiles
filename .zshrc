@@ -71,10 +71,7 @@ alias cpi='rsync --verbose --progress' # interactive copying of files
 alias grep='grep --color=auto'
 alias mkdir='nocorrect noglob mkdir' # spelling correction makes no sense for nonexistent stuff
 alias uu="sudo su -"                 # real root shell
-alias plagueis='ssh -t plagueis "screen -U -x"'
-alias vader='ssh -t vader "screen -U -x"'
 alias brezn='ssh -t brezn.muc.ccc.de "screen -U -x"'
-alias ns2="TERM=xterm ssh -t ns2"
 alias cookie='fortune .. off'
 alias psu='ps -fHu$USER'             # show all MY processes in a tree
 alias psa='ps -fHe'                  # show ALL processes in a tree

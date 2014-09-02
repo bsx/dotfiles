@@ -22,7 +22,9 @@
     co = checkout
     lv = log --name-status
     ll = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short
+    l  = log --pretty=oneline
     ap = add --patch
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 
 [url "git@github.com:"]
     insteadOf = github:
@@ -42,4 +44,3 @@
 	main-window-geometry = 0x0+0+0
 	history-view-vpane-position = 358
 	main-window-view = HistoryView
-	file-view-vpane-position = 570

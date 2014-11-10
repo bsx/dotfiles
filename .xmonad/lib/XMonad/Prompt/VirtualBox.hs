@@ -12,8 +12,7 @@
 --
 -----------------------------------------------------------------------------
 
-module VirtualBox
---module XMonad.Prompt.VirtualBox
+module XMonad.Prompt.VirtualBox
     ( -- * Usage
       -- $usage
       vboxPrompt

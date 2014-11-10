@@ -14,7 +14,7 @@ import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
 
-import XMonad.Config.Gnome
+import XMonad.Config.Mate
 import XMonad.Config.Desktop
 
 import XMonad.ManageHook
@@ -39,18 +39,17 @@ import XMonad.Prompt.Ssh
 import XMonad.Prompt.Layout
 import XMonad.Prompt.Man
 import XMonad.Prompt.Shell
+import XMonad.Prompt.VirtualBox
 
 import XMonad.Actions.CycleWS
 import XMonad.Actions.GridSelect
 
 import XMonad.Util.Run
 
--- import VirtualBox
-
 main = do
   dbus <- D.connectSession
   getWellKnownName dbus
-  xmonad $ withUrgencyHook NoUrgencyHook $ gnomeConfig {
+  xmonad $ withUrgencyHook NoUrgencyHook $ mateConfig {
        borderWidth          = 1
        , terminal           = "urxvt"
        , workspaces         = ["1:shells", "2:code", "3:web", "4:chat", "5:music", "6:office", "7:gimp", "8:rdesktop", "9:misc" ]
@@ -58,9 +57,9 @@ main = do
        , normalBorderColor  = "#dddddd"
        , focusedBorderColor = "#0033ff"
        , logHook            = dynamicLogWithPP $ myPrettyPrinter dbus
-       , manageHook         = manageHook gnomeConfig <+> myManageHook <+> manageDocks
-       , keys               = \c -> mykeys c `M.union` keys gnomeConfig c
-       , startupHook        = startupHook gnomeConfig
+       , manageHook         = manageHook mateConfig <+> myManageHook <+> manageDocks
+       , keys               = \c -> mykeys c `M.union` keys mateConfig c
+       , startupHook        = startupHook mateConfig <+> setWMName "LG3D"
        , layoutHook         = desktopLayoutModifiers $ noBorders $ onWorkspace "4:chat" chatL $ onWorkspace "7:gimp" gimpL $ defaultL
        }
   where
@@ -79,7 +78,7 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm, xK_z), toggleWS)
 
   -- lock the screen with xscreensaver
-  , ((modm .|. shiftMask, xK_l), spawn "gnome-screensaver-command --lock")
+  , ((modm .|. shiftMask, xK_l), spawn "mate-screensaver-command --lock")
 
   -- grid select
   , ((modm,               xK_g), goToSelected defaultGSConfig)
@@ -93,7 +92,7 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm .|. controlMask, xK_l), layoutPrompt xpc)
   , ((modm .|. controlMask, xK_m), manPrompt xpc)
   , ((modm .|. controlMask, xK_p), shellPrompt xpc)
-  --, ((modm .|. controlMask, xK_v), vboxPrompt xpc)
+  , ((modm .|. controlMask, xK_v), vboxPrompt xpc)
 
   -- window navigation keybindings.
   , ((modm,               xK_Right), sendMessage $ Go R)
@@ -132,6 +131,8 @@ myManageHook = composeAll
     , className =? "Chrome" --> doF(W.shift "3:web")
     , className =? "Chromium-browser" --> doF(W.shift "3:web")
     , className =? "Firefox" --> doF(W.shift "3:web")
+    , className =? "Iceweasel" --> doF(W.shift "3:web")
+    , className =? "Icedove" --> doF(W.shift "3:web")
     , className =? "Quodlibet" --> doF(W.shift "5:music")
     , className =? "OpenOffice.org 3.4" --> doF(W.shift "6:office")
     , className =? "Eclipse" --> doF(W.shift "2:code")

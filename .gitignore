@@ -1,6 +1,5 @@
-.xmonad/*.o
-.xmonad/*.hi
 .xmonad/history
 .xmonad/xmonad-x86_64-linux
 .xmonad/xmonad.errors
-
+*.o
+*.hi

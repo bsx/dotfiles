@@ -140,6 +140,7 @@ myManageHook = composeAll
     , className =? "Wfica" --> doF(W.shift "8:rdesktop")
     , className =? "xfreerdp" --> doF(W.shift "8:rdesktop")
     , className =? "MPlayer" --> doFloat
+    , className =? "mpv" --> doFloat
     , className =? "hl2_linux" --> doFullFloat
     ]
 

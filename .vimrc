@@ -10,27 +10,30 @@
         set background=dark     " Assume a dark background
     " }
 
-    " Setup Bundle Support {
-    " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        call vundle#rc()
-    " }
-
 " }
 
 " Bundles {
-    Bundle 'gmarik/vundle'
+"
+    " Setup Bundle Support {
+    " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype off
+        set rtp+=~/.vim/bundle/Vundle.vim
+        call vundle#begin()
+    " }
+    Plugin 'VundleVim/Vundle.vim'
 
     " load bundles from extra file {
     if filereadable(expand("~/.vimrc.bundles"))
         source ~/.vimrc.bundles
     endif
+
+    call vundle#end()
     " }
 "}
 
 " General {
     filetype plugin indent on   " Automatically detect file types.
+    let python_highlight_all=1
     syntax on                   " syntax highlighting
     set modeline                " use modelines
     set mouse=a                 " automatically enable mouse usage
@@ -53,6 +56,9 @@
 " }
 
 " Vim UI {
+    set t_Co=256
+    colorscheme wombat256mod
+
     set visualbell                  " no annoying beeps
 
     set tabpagemax=15               " only show 15 tabs
@@ -93,7 +99,7 @@
     set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap to
     set scrolljump=5                " lines to scroll when cursor leaves screen
     set scrolloff=3                 " minimum lines to keep above and below cursor
-    set foldenable                  " auto fold code
+    " set foldenable                  " auto fold code
     set list
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 " }
@@ -113,6 +119,18 @@
     autocmd FileType c,cpp,java,php,javascript,python,ruby,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
     " no tab expansion for Makefiles
     autocmd FileType make set noexpandtab nosmarttab
+
+    " flag bad whitespaces
+    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+    " fugitive
+    autocmd BufReadPost fugitive://* set bufhidden=delete   " autoclose fugitive buffers
+    " map .. to go to parent tree when browsing git objects
+    autocmd User fugitive if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' | nnoremap <buffer> .. :edit %:h<CR> | endif
+
+    " autocomplete
+    let g:ycm_autoclose_preview_window_after_completion=1
+    map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }
 
 " Key (re)Mappings {
@@ -248,6 +266,19 @@ call InitializeDirectories()
 
 "}
 
+ " Virtualenv support {
+
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+ "}
+
 " Special filetypes {
     augroup filetypedetect
         au! BufRead,BufNewFile *.pp     setfiletype puppet
@@ -263,9 +294,9 @@ call InitializeDirectories()
         set cindent
         set formatoptions=tcqlro
 
-        syn region myFold start="{" end="}" transparent fold
-        syn sync fromstart
-        set foldmethod=syntax
+        " syn region myFold start="{" end="}" transparent fold
+        " syn sync fromstart
+        " set foldmethod=syntax
     endfunction
 
     function! SetPythonOptions()

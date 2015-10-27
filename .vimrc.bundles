@@ -4,47 +4,44 @@
 " all bundles and their config goes here
 " }
 
-" Bundles without config {
-    Bundle 'mileszs/ack.vim'
+" Plugins without config {
+    Plugin 'mileszs/ack.vim'
     " surround text with quotes/tags/etc.
-    Bundle 'tpope/vim-surround'
+    Plugin 'tpope/vim-surround'
     " jump to target characters easily
-    Bundle 'Lokaltog/vim-easymotion'
+    Plugin 'Lokaltog/vim-easymotion'
     " structured undo history
-    Bundle 'mbbill/undotree'
+    Plugin 'mbbill/undotree'
     " run external syntax checkers on save
-    Bundle 'scrooloose/syntastic'
+    Plugin 'scrooloose/syntastic'
     " insert/toggle comments
-    Bundle 'scrooloose/nerdcommenter'
-    Bundle 'majutsushi/tagbar'
+    Plugin 'scrooloose/nerdcommenter'
+    Plugin 'majutsushi/tagbar'
     " python stuff {
-        Bundle 'klen/python-mode'
-        Bundle 'python.vim'
-        Bundle 'python_match.vim'
-        Bundle 'pythoncomplete'
+        Plugin 'klen/python-mode'
+        Plugin 'python.vim'
+        Plugin 'python_match.vim'
+        Plugin 'pythoncomplete'
+        Plugin 'vim-scripts/indentpython.vim'
+        Plugin 'nvie/vim-flake8'
     " }
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'jistr/vim-nerdtree-tabs'
+    Plugin 'kien/ctrlp.vim'
+    " better autocompletion
+    Plugin 'Valloric/YouCompleteMe'
 " }
 
 " colorscheme {
-    "Bundle 'altercation/vim-colors-solarized'
-    "let g:solarized_termcolors=256 " use standard terminal colors
-    "colorscheme solarized
-    "set background=dark
-    "Bundle 'fisadev/fisa-vim-colorscheme'
-    "colorscheme fisa
-    set t_Co=256
-    Bundle 'wombat256.vim'
-    colorscheme wombat256mod
+    "Plugin 'altercation/vim-colors-solarized'
+    "Plugin 'fisadev/fisa-vim-colorscheme'
+    Plugin 'wombat256.vim'
 " }
 
 " powerline (fancy status line stuff) {
-    Bundle 'Lokaltog/vim-powerline'
-    "let g:Powerline_symbols = 'fancy'
+    Plugin 'Lokaltog/vim-powerline'
 " }
 
 " fugitive {
-    Bundle 'tpope/vim-fugitive'
-    autocmd BufReadPost fugitive://* set bufhidden=delete   " autoclose fugitive buffers
-    " map .. to go to parent tree when browsing git objects
-    autocmd User fugitive if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' | nnoremap <buffer> .. :edit %:h<CR> | endif
+    Plugin 'tpope/vim-fugitive'
 " }

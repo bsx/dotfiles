@@ -82,6 +82,7 @@ alias 3m='cal -m3'
 alias year='cal -my'
 alias services='netstat -tulpn'
 alias goa='mplayer -playlist "http://yp.shoutcast.com/sbin/tunein-station.pls?id=5628"'
+alias sepdate='echo $(( (`date +%s` - 746748000) /86400 )) September 1993'
 
 HOSTNAME=`hostname`
 # include config specific to the hostname if it exists

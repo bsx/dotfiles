@@ -23,6 +23,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.EwmhDesktops
 
 import XMonad.Layout.HintedTile
 import XMonad.Layout.IM
@@ -61,6 +62,7 @@ main = do
        , keys               = \c -> mykeys c `M.union` keys mateConfig c
        , startupHook        = startupHook mateConfig <+> setWMName "LG3D"
        , layoutHook         = desktopLayoutModifiers $ noBorders $ onWorkspace "4:chat" chatL $ onWorkspace "7:gimp" gimpL $ defaultL
+       , handleEventHook    = fullscreenEventHook
        }
   where
 

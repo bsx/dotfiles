@@ -120,9 +120,6 @@
     " no tab expansion for Makefiles
     autocmd FileType make set noexpandtab nosmarttab
 
-    " flag bad whitespaces
-    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
     " fugitive
     autocmd BufReadPost fugitive://* set bufhidden=delete   " autoclose fugitive buffers
     " map .. to go to parent tree when browsing git objects

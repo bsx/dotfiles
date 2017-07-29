@@ -1,10 +1,11 @@
 #text/calendar; mutt-ical.py -i -e "b.stolle@traviangames.com" %s; copiousoutput
 text/calendar; calendarview.py %s; copiousoutput
 application/ics; mutt-ical.py -i -e "b.stolle@traviangames.com" %s; copiousoutput
-application/pdf; evince %s
-image/pdf; evince %s
-application/x-pdf; evince %s
+application/pdf; xdg-open %s
+image/pdf; xdg-open %s
+application/x-pdf; xdg-open %s
 application/msword; oowriter %s
 image/*; eog %s
 application/vnd.oasis.opendocument.spreadsheet; oocalc %s
 application/vnd.oasis.opendocument.text; oowriter %s
+text/html; lynx -dump %s; copiousoutput; nametemplate=%s.html

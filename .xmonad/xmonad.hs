@@ -34,6 +34,7 @@ import XMonad.Layout.Named
 import XMonad.Layout.Reflect
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Maximize
 
 import XMonad.Prompt
 import XMonad.Prompt.Ssh
@@ -66,21 +67,21 @@ main = do
        }
   where
 
-defaultL   = named "tabbed" $avoidStruts $ smartBorders $ tabbed shrinkText myTabConfig
+defaultL   = named "tabbed" $avoidStruts $ smartBorders $ maximize $ tabbed shrinkText myTabConfig
 chatL      = named "chat" $ avoidStruts $ smartBorders $ withIM (1%6) (Or (Role "roster") (Or (Title "Buddy-Liste") (Title "Contact List"))) defaultL
 gimpL      = named "gimp" $ avoidStruts $ smartBorders $ withIM (1%9) (Role "gimp-toolbox") $ reflectHoriz $ withIM (1%6) (Role "gimp-dock") defaultL
 
 mykeys (XConfig {modMask = modm}) = M.fromList $
   [
   -- rotate workspaces
-  ((modm .|. controlMask, xK_Right), nextWS)
+    ((modm .|. controlMask, xK_Right), nextWS)
   , ((modm .|. controlMask, xK_Left), prevWS)
 
   -- switch to previous workspace
   , ((modm, xK_z), toggleWS)
 
   -- lock the screen with xscreensaver
-  , ((modm .|. shiftMask, xK_l), spawn "mate-screensaver-command --lock")
+  , ((modm,               xK_l), spawn "slock")
 
   -- grid select
   , ((modm,               xK_g), goToSelected defaultGSConfig)
@@ -105,21 +106,18 @@ mykeys (XConfig {modMask = modm}) = M.fromList $
   , ((modm .|. shiftMask, xK_Left ), sendMessage $ Swap L)
   , ((modm .|. shiftMask, xK_Up   ), sendMessage $ Swap U)
   , ((modm .|. shiftMask, xK_Down ), sendMessage $ Swap D)
-
-  --, ((0,                  xK_F12  ), scratchpadSpawnActionTerminal "urxvt")
-  , ((0,              0x1008ffb0  ), spawn "/home/bsx/bin/toggle-touchpad")
   ]
 
 xpc :: XPConfig
-xpc = defaultXPConfig { font = "xft:ProFontWindows:size=12:antialias=true:hinting=true" }
+xpc = defaultXPConfig { font = "xft:Droid Sans Mono:size=8:antialias=true:hinting=true" }
 
 myTabConfig :: Theme
-myTabConfig = defaultTheme { fontName = "xft:ProFontWindows:size=12:antialias=true:hinting=true" }
+myTabConfig = defaultTheme { fontName = "xft:Droid Sans Mono:size=8:antialias=true:hinting=true" }
 
 myPrettyPrinter :: D.Client -> PP
 myPrettyPrinter dbus = defaultPP {
     ppOutput  = outputThroughDBus dbus
-  , ppTitle   = pangoColor "#003366" . shorten 50 . pangoSanitize
+  , ppTitle   = pangoColor "#0066FF" . shorten 80 . pangoSanitize
   , ppCurrent = pangoColor "#FF0000" . wrap "[" "]" . pangoSanitize
   , ppVisible = pangoColor "#663366" . wrap "(" ")" . pangoSanitize
   , ppHidden  = wrap " " " "
@@ -132,6 +130,7 @@ myManageHook = composeAll
     , className =? "Gajim" --> doF(W.shift "4:chat")
     , className =? "Chrome" --> doF(W.shift "3:web")
     , className =? "Chromium-browser" --> doF(W.shift "3:web")
+    , className =? "chromium-browser-chromium" --> doF(W.shift "3:web")
     , className =? "Firefox" --> doF(W.shift "3:web")
     , className =? "Iceweasel" --> doF(W.shift "3:web")
     , className =? "Icedove" --> doF(W.shift "3:web")

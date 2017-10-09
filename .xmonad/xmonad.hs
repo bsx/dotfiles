@@ -53,7 +53,7 @@ main = do
   getWellKnownName dbus
   xmonad $ withUrgencyHook NoUrgencyHook $ mateConfig {
        borderWidth          = 1
-       , terminal           = "urxvt"
+       , terminal           = "alacritty"
        , workspaces         = ["1:shells", "2:code", "3:web", "4:chat", "5:music", "6:office", "7:gimp", "8:rdesktop", "9:misc" ]
        , modMask            = mod4Mask
        , normalBorderColor  = "#dddddd"

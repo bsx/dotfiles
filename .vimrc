@@ -40,6 +40,8 @@
     scriptencoding utf-8
     autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif " always switch to the current file directory.
 
+    let g:airline_powerline_fonts = 1
+
     set shortmess+=filmnrxoOtT      " abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
     set history=1000                " Store a ton of history (default is 20)

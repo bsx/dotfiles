@@ -39,7 +39,8 @@
 " }
 
 " powerline (fancy status line stuff) {
-    Plugin 'Lokaltog/vim-powerline'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
 " }
 
 " fugitive {
